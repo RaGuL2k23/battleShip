@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href=" normalize.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Faster+One&family=Fuggles&display=swap" rel="stylesheet">
+    <script type="module" defer src="battleShip.js"></script>
+    <script type="module" defer src="gameBoardUi.js"></script>
+    <script type="module" defer src="play.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Battle Ships </h1>
+    <span><h2>Human</h2><h1>VS</h1> <h2  >Computer</h2> </span>
+    <button>Random Generate</button>
+    <div class="cont"></div>
+  </body>
+
+  <style>
+   
+    :root{
+      --box-size:3rem;
+        --meltingColor: rgb(74, 148, 204);
+    }
+    button{
+      display: block;
+      width: 150px;
+      height: 20px;
+    }
+    span{ margin-left: 320px;
+      width: 300px;gap: 33px;
+      display: flex; justify-content: center; align-items: center;
+      text-decoration: underline wavy;font-size: 3rem;
+  font-family: 'Faster One', cursive;
+      & >h1{   
+         font-size: 3rem;
+      }
+    }
+    h1{ display:  block;
+      text-align: center;
+      text-decoration: underline dotted;font-size: 5rem;
+  font-family: 'Faster One', cursive;
+}
+    .cont{
+      display: flex;
+      gap: 30px; 
+     
+    }
+    @media screen and  (max-width: 767px)   {
+        .cont{
+          display: flex;
+          flex-wrap: wrap;
+          gap:30px;
+        }
+      }
+    body { 
+      padding: 30px;
+      background-color:var(--meltingColor)
+    }
+    .hero_container {
+      border: 2px solid;
+      display: grid;
+      /* width: 450px;
+      height: 450px; */
+      grid-template-columns: repeat(10,var(--box-size));
+       grid-template-rows: repeat(10,var(--box-size)); 
+    }
+    .box {
+      border: 2px solid black; 
+    }
+    .ship {
+      background-color: green;
+    }
+
+    .miss,
+    .hit {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      pointer-events: none; /*god saver*/ 
+    }
+    /* .hideShip{
+      background-color: purple;
+    } */
+     .hit::before  {
+      content: "💥";
+    }
+    .miss::after {
+      content: "💦";
+    }
+    .hideShip{
+      background-color : var(--meltingColor)
+    }
+
+    .sunked {
+      background-color: red;
+    }
+  </style>
+</html>
