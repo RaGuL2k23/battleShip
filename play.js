@@ -2,12 +2,17 @@
 //but also to take care of html etc use .js
 import { GameboardUi, GameboardUiComputer } from "./gameBoardUi.js";
 
+function waitAndAttack( ){//make computer wait for 1 second
+    setTimeout(() => {
+        computerAttack();
+    }, 1000);
+}
 //create game logic/play logic
 //player vs computer;
 let player = new GameboardUi('player');
 let computer = new GameboardUiComputer('computer');
 
-function giveAttackingPower(player) {
+function giveAttackingPower(toplayer) {
     
     computer.Contaniner.addEventListener("click", (e) => {
     console.log(e.target);
@@ -15,7 +20,7 @@ function giveAttackingPower(player) {
       let [x, y] = e.target.dataset.id.split(",");
       computer.receiveAttack(x, y); 
       //computer posses attack after our attack
-      computerAttack();
+      waitAndAttack();
       console.log(x, y, e.target.dataset.shipId);
     } catch {
       console.log("already attacked   ");
@@ -23,18 +28,10 @@ function giveAttackingPower(player) {
   });
 } 
 //1.place sships
+ const shipsAvailable = [3,4,  2, 1, 1];
  
-
-// console.log(player.placeOccupied);
-//   player.placeShip({ length: 3 }, 4, 3);
- 
-
-//   player.placeShip({ length: 2, place: "sf" }, 1, 2);
-//   player.placeShip({ length: 2, place: "sf" }, 6, 2);
- 
- 
-function placeRandom(toWhom) {
-    const shipLengths = [3,4,  2, 4, 1];
+function placeRandom(toWhom,plc) {
+    const shipLengths = shipsAvailable
     const boardSize = 9;
 
     shipLengths.forEach(length => {
@@ -58,21 +55,35 @@ function placeRandom(toWhom) {
         } while (overlap);//do this again if overlay
        
         // Place the ship
-        toWhom.placeShip({ length: length }, x, y);
+         plc =  plc=='vertical'?'h':'vertical';
+        console.log(plc)
+        toWhom.placeShip({ length: length ,place : plc }, x, y,'d');
     });
 }
 
 function checkOverlap(toWhom, x, y, length) {//algorithm only for vertical
-    for (let i = 0; i < length; i++) {
-        if (toWhom.placeOccupied.has([x + i, y].toString())) {
+     
+    for (let i = 0; i < length; i++) { 
+        if (toWhom.placeOccupied.has([x + i, y ].toString())// boundary cross check
+       || toWhom.placeOccupied.has([x,y+i].toString())// if 9,9 then 9,10 is not valid so check it
+
+       || toWhom.placeOccupied.has([x,y].toString()) //check x&y itself
+
+       || toWhom.placeOccupied.has([x+i,y+1].toString())//check adjacent right
+       || toWhom.placeOccupied.has([x+i,y-1].toString())// for ver adj left
+
+       || toWhom.placeOccupied.has([x-1,y+i].toString())//check upward ovrlap for hor
+       || toWhom.placeOccupied.has([x+1,y+i].toString())//downwared ovrlap fr hor
+         
+    ) {
             return true; // Overlapping ship found
         }
     }
     return false; // No overlap
 }
 console.log(player.Contaniner)
-function placePlayerRandom(player) {
-    const shipLengths = [3, 4, 2, 4, 1];
+function placePlayerRandom(player,plc) {
+    const shipLengths = shipsAvailable;
     const boardSize = 9;
 
     // Clear existing ships from the player's board
@@ -102,16 +113,13 @@ function placePlayerRandom(player) {
             }
         } while (overlap);
 
-        // Place the ship for the player
-        player.placeShip({ length: length }, x, y);
+        // Place the ship for the player 
+         plc =  plc=='vertical'?'h':'vertical';
+        player.placeShip({ length: length ,place:plc}, x, y);
     });
 }
 
-// ... (checkOverlap function remains the same)
-
-
  
-
 
 //add event listnrs to listenh to recieve attack
 giveAttackingPower(player); 
@@ -135,19 +143,21 @@ let smartAttackQ = [];     //ai becomes smarter
 //really blasting tbh wow 
 
 
-function computerAttack(){ 
+  function computerAttack(){ 
     console.log(player.allShipSunked())
-    if(player.allShipSunked()){alert('computer won')};
-    if(computer.allShipSunked()){alert('player won')}
+    if(player.allShipSunked()){alert('computer won');throw new console.error('gameend');}
+    else if(computer.allShipSunked()){alert('player  won Hoo');throw new console.error('gameend');}
     document.querySelector('button').style.display = "none" //no longer needed random btn;
 
     let x,y ;
-    x = Math.floor(Math.random()*10);y = Math.floor(Math.random()*10);
+    x = Math.floor(Math.random()*10);y = Math.floor(Math.random()*10); 
     if(smartAttackQ.length>0){
           [x,y] = smartAttackQ.shift();//
           x++;//attacks the next upcoming part's of ship
-          
+        
     }
+
+       
    
 
       if(!attackedCoorSet.has([x,y].toString())){
@@ -155,6 +165,9 @@ function computerAttack(){
        let attackStatus =  player.receiveAttack(x,y);
         if(attackStatus == 'hit'){
             smartAttackQ.push([x,y])
+        }
+        else {
+             
         }
 
     }
@@ -166,8 +179,8 @@ function computerAttack(){
 
 // setTimeout(() => {
 //     let i = 0;
-//     while(i<400){
+//     while(i<199){
 // i++;player.receiveAttack(Math.floor(Math.random()*10),Math.floor(Math.random()*10))
 //     }
-// }, 1000);
+// }, 100000);
  

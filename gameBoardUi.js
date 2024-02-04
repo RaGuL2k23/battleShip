@@ -100,6 +100,7 @@ class GameboardUi extends Gameboard {
 
       //attach hit class to hit box;
       this.grid[xCoordinate][yCoordinate].classList.add("hit");
+      //looking forwa music audio
       // this.grid[xCoordinate][yCoordinate].textContent = "❌💥";
 
       //check for ship sunked status
