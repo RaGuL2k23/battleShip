@@ -1,6 +1,7 @@
 import { Gameboard, Ship } from './battleShip.js'
 let p1gmb, computer
 
+let soundOption = document.querySelector("#soundOption");
 let strikeSound = document.querySelector('.strike')
 let shipAttacked = document.querySelector('.attacked')
 let sunkSound = document.querySelector('.sunksound')
@@ -111,18 +112,18 @@ class GameboardUi extends Gameboard {
             //attach hit class to hit box;
             this.grid[xCoordinate][yCoordinate].classList.add('hit')
             //hit music
-            strikeSound.currentTime = 0
+            if(soundOption.checked){strikeSound.currentTime = 0
             strikeSound.play()
 
-            shipAttacked.play()
+            shipAttacked.play()}
 
             // this.grid[xCoordinate][yCoordinate].textContent = "❌💥";
 
             //check for ship sunked status
             if (attackedShip.isSunk()) {
               //add some sunkin sound
-      sunkSound.currentTime=5;
-      sunkSound.play();
+      if(soundOption.checked){sunkSound.currentTime=5;
+      sunkSound.play();}
                 this.shipSunked(attackedShip)
             }
             // log(attackedShip.id, "attackedShip", this.ships);
@@ -130,8 +131,8 @@ class GameboardUi extends Gameboard {
         }
 
         //looking forwa music audio
-        strikeSound.currentTime = 0
-        strikeSound.play();
+        if(soundOption.checked){strikeSound.currentTime = 0
+        strikeSound.play();}
 
         this.grid[xCoordinate][yCoordinate].classList.add('miss')
 

@@ -7,6 +7,8 @@ import { GameboardUi, GameboardUiComputer } from './gameBoardUi.js'
 let player = new GameboardUi('player')
 let computer = new GameboardUiComputer('computer')
 const waitSec = 1.5;
+
+
 function giveAttackingPower(toplayer) {
     let canAttack = true
     computer.Contaniner.addEventListener('click', async (e) => {
@@ -29,7 +31,7 @@ function giveAttackingPower(toplayer) {
 }
 
 function wait(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms*1000))
+    return new  Promise(resolve => setTimeout(resolve, ms*1000) );
 }
 //1.place sships
 const shipsAvailable = [3, 4, 2, 1, 1]

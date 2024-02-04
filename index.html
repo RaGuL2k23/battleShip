@@ -33,19 +33,34 @@
             ><h2>Human</h2>
             <h1>VS</h1>
             <h2>Computer</h2>
+
+            
         </span>
-        <button>Random Generate</button>
+        <button>Random Generate</button><br>
+        <div><label for="soundOption">Sound Needed</label><input type="checkbox" name="sound" id="soundOption"></div>
         <div class="cont"></div>
     </body>
 
     <script>
-        let x = document.querySelector('.strike')
+        let x = document.querySelectorAll('audio');
+        let soundOption = document.querySelector("#soundOption");
+        soundOption.addEventListener('click',(e)=>console.log(e.target.checked))
+        // x.forEach(a=>a. )
     </script>
 
     <style>
         :root {
             --box-size: 3rem;
             --meltingColor: rgb(74, 148, 204);
+        }
+        label{
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: larger;color:white;  
+            &  +input{        /*~input*/
+                display: inline-block;
+                width: 140px;
+                height: 20px;
+            }
         }
         button {
             display: block;
